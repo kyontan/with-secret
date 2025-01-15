@@ -13,10 +13,6 @@ import (
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
 )
 
-const (
-	PLAIN_PRINT_FIRST_N_CHARS = 4
-)
-
 func PrintUsageAndExit() {
 	fmt.Println("Usage: with-secret command")
 	fmt.Println("  command: command to execute")
