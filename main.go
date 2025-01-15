@@ -18,15 +18,15 @@ const (
 )
 
 func PrintUsageAndExit() {
-	fmt.Println("Usage: with-secrets command")
+	fmt.Println("Usage: with-secret command")
 	fmt.Println("  command: command to execute")
 	fmt.Println()
 	fmt.Println("Environment Variables:")
-	fmt.Println("  WITH_SECRETS_ID: AWS Secrets Manager ID")
+	fmt.Println("  WITH_SECRET_ID: AWS Secrets Manager ID")
 	fmt.Println()
 	fmt.Println("Example:")
-	fmt.Println("  $ export WITH_SECRETS_ID=my-secret-id")
-	fmt.Println("  $ with-secrets my-command")
+	fmt.Println("  $ export WITH_SECRET_ID=my-secret-id")
+	fmt.Println("  $ with-secret my-command")
 	os.Exit(1)
 }
 
@@ -49,11 +49,11 @@ func GetSecretFromAWS(secret_id string) string {
 }
 
 func main() {
-	// check if WITH_SECRETS_ID is set
-	secret_id := os.Getenv("WITH_SECRETS_ID")
+	// check if WITH_SECRET_ID is set
+	secret_id := os.Getenv("WITH_SECRET_ID")
 
 	if secret_id == "" {
-		fmt.Println("Error: WITH_SECRETS_ID is not set")
+		fmt.Println("Error: WITH_SECRET_ID is not set")
 		PrintUsageAndExit()
 	}
 
