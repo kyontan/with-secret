@@ -58,13 +58,13 @@ func main() {
 	secret_id := os.Getenv("WITH_SECRET_ID")
 
 	if secret_id == "" {
-		fmt.Println("Error: WITH_SECRET_ID is not set")
+		fmt.Fprintln(os.Stderr, "Error: WITH_SECRET_ID is not set")
 		PrintUsageAndExit()
 	}
 
 	// check if command is provided
 	if len(os.Args) < 2 {
-		fmt.Println("Error: command is not provided")
+		fmt.Fprintln(os.Stderr, "Error: command is not provided")
 		PrintUsageAndExit()
 	}
 
@@ -83,8 +83,7 @@ func main() {
 	secret_map := make(map[string]string)
 	err := json.Unmarshal(secret_json, &secret_map)
 	if err != nil {
-		fmt.Println("Error: secret is not JSON or not key-value pairs")
-		fmt.Println(err)
+		fmt.Fprintf(os.Stderr, "Error: secret is not JSON or not key-value pairs: %+v\n", err)
 		os.Exit(1)
 	}
 
@@ -106,21 +105,18 @@ func main() {
 
 	stdout, err := command.StdoutPipe()
 	if err != nil {
-		fmt.Println("Error: unable to get stdout pipe")
-		fmt.Println(err)
+		fmt.Fprintf(os.Stderr, "Error: unable to get stdout pipe: %+v\n", err)
 		os.Exit(1)
 	}
 
 	stderr, err := command.StderrPipe()
 	if err != nil {
-		fmt.Println("Error: unable to get stderr pipe")
-		fmt.Println(err)
+		fmt.Fprintf(os.Stderr, "Error: unable to get stderr pipe: %+v\n", err)
 		os.Exit(1)
 	}
 
 	if err := command.Start(); err != nil {
-		fmt.Println("Error: unable to start command")
-		fmt.Println(err)
+		fmt.Fprintf(os.Stderr, "Error: unable to start command: %+v\n", err)
 		os.Exit(1)
 	}
 
@@ -165,8 +161,7 @@ func main() {
 	wg.Wait()
 
 	if err := command.Wait(); err != nil {
-		fmt.Println("Error: command execution failed")
-		fmt.Println(err)
+		fmt.Fprintf(os.Stderr, "Error: command execution failed: %+v\n", err)
 		os.Exit(1)
 	}
 }
