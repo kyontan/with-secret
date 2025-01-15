@@ -142,7 +142,6 @@ func main() {
 		}
 		masked := trie.PrintRemaining(remaining, trie_state)
 		fmt.Print(masked)
-		fmt.Println("EoF: stdout")
 	}()
 
 	go func() {
@@ -161,7 +160,6 @@ func main() {
 		}
 		masked := trie.PrintRemaining(remaining, trie_state)
 		fmt.Print(masked)
-		// fmt.Println("EoF: stderr")
 	}()
 
 	wg.Wait()
