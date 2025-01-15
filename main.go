@@ -169,6 +169,4 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-
-	fmt.Println("Command executed successfully")
 }
