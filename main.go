@@ -31,9 +31,18 @@ func PrintUsageAndExit() {
 }
 
 func GetSecretFromAWS(secret_id string) string {
+	return GetSecretWithVersionIdFromAWS(secret_id, "AWSCURRENT")
+}
+
+func GetSecretWithVersionIdFromAWS(secret_id, version_id string) string {
 	// get secret from AWS Secrets Manager
+
 	input := &secretsmanager.GetSecretValueInput{
 		SecretId: aws.String(secret_id),
+	}
+
+	if version_id != "AWSCURRENT" {
+		input.VersionId = aws.String(version_id)
 	}
 
 	sess := session.Must(session.NewSession())
@@ -64,7 +73,13 @@ func main() {
 	}
 
 	// get secret from AWS Secrets Manager
-	secret := GetSecretFromAWS(secret_id)
+	secret_version_id := os.Getenv("WITH_SECRETS_VERSION_ID")
+	var secret string
+	if secret_version_id == "" {
+		secret = GetSecretFromAWS(secret_id)
+	} else {
+		secret = GetSecretWithVersionIdFromAWS(secret_id, secret_version_id)
+	}
 
 	// assumption: secret is JSON and has key-value pairs
 	// parse secret JSON
