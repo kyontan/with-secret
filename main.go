@@ -80,11 +80,16 @@ func main() {
 	// assumption: secret is JSON and has key-value pairs
 	// parse secret JSON
 	secret_json := []byte(secret)
-	secret_map := make(map[string]string)
-	err := json.Unmarshal(secret_json, &secret_map)
+	secret_map_original := make(map[string]interface{}) // value might be string or integer or ...
+	err := json.Unmarshal(secret_json, &secret_map_original)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "[with-secret] Error: secret is not JSON or not key-value pairs: %+v\n", err)
 		os.Exit(1)
+	}
+
+	secret_map := make(map[string]string)
+	for key, value := range secret_map_original {
+		secret_map[key] = fmt.Sprintf("%v", value)
 	}
 
 	// Build the trie-tree from secret_map values
