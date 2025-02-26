@@ -126,7 +126,7 @@ func main() {
 	go func() {
 		defer wg.Done()
 		scanner := bufio.NewScanner(stdout)
-		scanner.Split(bufio.ScanBytes)
+		scanner.Split(bufio.ScanRunes)
 		trie_state := NewTrieNodeState()
 		var remaining string
 		for scanner.Scan() {
@@ -143,7 +143,7 @@ func main() {
 	go func() {
 		defer wg.Done()
 		scanner := bufio.NewScanner(stderr)
-		scanner.Split(bufio.ScanBytes)
+		scanner.Split(bufio.ScanRunes)
 
 		trie_state := NewTrieNodeState()
 		var remaining string
